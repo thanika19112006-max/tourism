@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Discover Incredible India — Official Travel Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+/* ═══════════════════════════════════════
+   ROOT DESIGN TOKENS
+═══════════════════════════════════════ */
+:root {
+  --navy:       #0c1a2e;
+  --navy-mid:   #162846;
+  --ocean:      #1a4f7a;
+  --sky:        #2e86c1;
+  --saffron:    #e8751a;
+  --saffron-d:  #c45f0a;
+  --gold:       #f0a500;
+  --coral:      #e84545;
+  --cream:      #fdf6ec;
+  --sand:       #f2e4cc;
+  --warm-white: #fffbf5;
+  --muted:      #7a6e5f;
+  --text-dark:  #1a1208;
+  --white:      #ffffff;
+ 
+  --shadow-xs:  0 2px 8px rgba(12,26,46,.07);
+  --shadow-sm:  0 6px 24px rgba(12,26,46,.10);
+  --shadow-md:  0 16px 48px rgba(12,26,46,.16);
+  --shadow-lg:  0 32px 80px rgba(12,26,46,.24);
+  --shadow-glow:0 8px 32px rgba(232,117,26,.35);
+ 
+  --radius:     18px;
+  --radius-sm:  10px;
+  --transition: .38s cubic-bezier(.23,1,.32,1);
+}
+ 
+/* ═══════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--warm-white);
+  color: var(--text-dark);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+ 
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--saffron); border-radius: 3px; }
+ 
+/* Selection */
+::selection { background: var(--saffron); color: #fff; }
+ 
+/* Grain overlay */
+body::before {
+  content:'';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9000; opacity: .5;
+}
+ 
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { font-family: 'Syne', sans-serif; }
+ul { list-style: none; }
+ 
+/* ═══════════════════════════════════════
+   UTILITY
+═══════════════════════════════════════ */
+.container { max-width: 1280px; margin: 0 auto; padding: 0 5vw; }
+.section-pad { padding: 6rem 5vw; }
+ 
+.tag-line {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-size: .72rem; font-weight: 700; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--saffron);
+  margin-bottom: 1rem;
+}
+.tag-line::before { content:''; width: 28px; height: 2px; background: var(--saffron); border-radius: 1px; }
+.tag-line::after  { content:''; width: 28px; height: 2px; background: var(--saffron); border-radius: 1px; }
+ 
+.section-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-weight: 900; line-height: 1.1;
+  color: var(--navy);
+  margin-bottom: .8rem;
+}
+.section-heading em { font-style: italic; color: var(--saffron); }
+.section-subtext {
+  font-size: .97rem; font-weight: 400; line-height: 1.8;
+  color: var(--muted); max-width: 520px;
+}
+ 
+/* Fade-in on scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+ 
+/* ═══════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════ */
+#navbar {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 1.4rem 5vw;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background var(--transition), padding var(--transition), box-shadow var(--transition);
+}
+#navbar.scrolled {
+  background: rgba(12,26,46,.97);
+  backdrop-filter: blur(20px);
+  padding: .9rem 5vw;
+  box-shadow: 0 4px 24px rgba(0,0,0,.3);
+}
+ 
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.55rem; font-weight: 900;
+  color: var(--white);
+  letter-spacing: -.01em;
+  display: flex; align-items: center; gap: .4rem;
+}
+.nav-logo .accent { color: var(--gold); }
+.nav-logo .dot { width: 6px; height: 6px; background: var(--saffron); border-radius: 50%; display: inline-block; }
+ 
+.nav-menu {
+  display: flex; align-items: center; gap: .25rem;
+}
+.nav-menu a {
+  font-size: .82rem; font-weight: 600; letter-spacing: .06em;
+  text-transform: uppercase; color: rgba(255,255,255,.75);
+  padding: .5rem 1rem; border-radius: 8px;
+  transition: color .2s, background .2s;
+  position: relative;
+}
+.nav-menu a:hover { color: #fff; background: rgba(255,255,255,.08); }
+.nav-menu a.active { color: var(--gold); }
+ 
+.nav-cta {
+  background: linear-gradient(135deg, var(--saffron) 0%, var(--gold) 100%);
+  color: #fff !important;
+  padding: .55rem 1.4rem !important;
+  border-radius: 100px !important;
+  font-weight: 700 !important;
+  transition: transform .2s, box-shadow .2s, background .3s !important;
+  box-shadow: var(--shadow-glow);
+}
+.nav-cta:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 32px rgba(232,117,26,.45) !important;
+  background: rgba(255,255,255,.1) !important;
+}
+ 
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column; gap: 5px;
+  cursor: pointer; padding: .5rem;
+  background: none; border: none;
+}
+.hamburger span {
+  display: block; width: 24px; height: 2px;
+  background: #fff; border-radius: 1px;
+  transition: transform .3s, opacity .3s;
+}
+ 
+/* ═══════════════════════════════════════
+   HERO SECTION
+═══════════════════════════════════════ */
+#home {
+  position: relative;
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+ 
+.hero-bg {
+  position: absolute; inset: 0;
+  background: url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1920&q=85') center/cover no-repeat;
+  transform: scale(1.05);
+  transition: transform 8s ease-out;
+}
+.hero-bg.loaded { transform: scale(1); }
+ 
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(12,26,46,.82) 0%,
+    rgba(22,40,70,.7) 40%,
+    rgba(12,26,46,.5) 70%,
+    rgba(12,26,46,.8) 100%
+  );
+}
+ 
+/* Animated particles */
+.hero-particles {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+}
+.particle {
+  position: absolute; border-radius: 50%;
+  background: rgba(240,165,0,.25);
+  animation: float-particle linear infinite;
+}
+ 
+.hero-content {
+  position: relative; z-index: 2;
+  text-align: center;
+  padding: 8rem 2rem 6rem;
+  max-width: 900px;
+}
+ 
+.hero-badge {
+  display: inline-flex; align-items: center; gap: .6rem;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.2);
+  backdrop-filter: blur(8px);
+  color: var(--gold);
+  font-size: .72rem; font-weight: 700; letter-spacing: .16em;
+  text-transform: uppercase;
+  padding: .4rem 1.2rem; border-radius: 100px;
+  margin-bottom: 1.8rem;
+  animation: heroFadeDown .9s ease both;
+}
+.hero-badge i { font-size: .75rem; }
+ 
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3.2rem, 9vw, 8rem);
+  font-weight: 900; line-height: .95;
+  color: var(--white);
+  letter-spacing: -.02em;
+  margin-bottom: 1rem;
+  animation: heroFadeDown 1s .15s ease both;
+}
+.hero-title .line2 {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--saffron) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+ 
+.hero-tagline {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 400; letter-spacing: .25em;
+  text-transform: uppercase; color: rgba(255,255,255,.7);
+  margin-bottom: 2.4rem;
+  animation: heroFadeDown 1s .3s ease both;
+}
+ 
+.hero-tagline span { color: var(--gold); margin: 0 .8rem; font-size: .8em; }
+ 
+.hero-btns {
+  display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+  animation: heroFadeDown 1s .45s ease both;
+  margin-bottom: 4rem;
+}
+ 
+.btn-hero-primary {
+  background: linear-gradient(135deg, var(--saffron) 0%, var(--gold) 100%);
+  color: #fff; border: none;
+  padding: 1rem 2.6rem; border-radius: 100px;
+  font-size: .95rem; font-weight: 700; letter-spacing: .06em;
+  cursor: pointer; display: inline-flex; align-items: center; gap: .6rem;
+  box-shadow: 0 8px 32px rgba(232,117,26,.4);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.btn-hero-primary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 16px 48px rgba(232,117,26,.5);
+}
+.btn-hero-primary i { transition: transform .3s; }
+.btn-hero-primary:hover i { transform: translateX(4px); }
+ 
+.btn-hero-ghost {
+  background: transparent; color: #fff;
+  border: 1.5px solid rgba(255,255,255,.4);
+  padding: .97rem 2.2rem; border-radius: 100px;
+  font-size: .95rem; font-weight: 600; letter-spacing: .05em;
+  cursor: pointer; display: inline-flex; align-items: center; gap: .6rem;
+  transition: background var(--transition), border-color var(--transition);
+}
+.btn-hero-ghost:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.7); }
+ 
+/* Hero stats */
+.hero-stats {
+  display: flex; justify-content: center; gap: 0;
+  animation: heroFadeDown 1s .6s ease both;
+}
+.hero-stat {
+  text-align: center;
+  padding: 1.2rem 2rem;
+  border-right: 1px solid rgba(255,255,255,.15);
+}
+.hero-stat:last-child { border-right: none; }
+.hero-stat strong {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem; font-weight: 900; color: var(--gold);
+  line-height: 1;
+}
+.hero-stat small {
+  font-size: .72rem; font-weight: 500; letter-spacing: .1em;
+  text-transform: uppercase; color: rgba(255,255,255,.5);
+  margin-top: .3rem; display: block;
+}
+ 
+/* Scroll indicator */
+.scroll-down {
+  position: absolute; bottom: 2.5rem; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: .5rem;
+  color: rgba(255,255,255,.5); font-size: .65rem; letter-spacing: .15em;
+  text-transform: uppercase;
+  animation: scrollBounce 2.5s ease infinite;
+  z-index: 2;
+}
+.scroll-down .arrow {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .75rem;
+}
+ 
+/* ═══════════════════════════════════════
+   STATS MARQUEE STRIP
+═══════════════════════════════════════ */
+.marquee-strip {
+  background: var(--navy);
+  padding: 1.2rem 0;
+  overflow: hidden;
+  border-top: 1px solid rgba(255,255,255,.05);
+}
+.marquee-inner {
+  display: flex; width: max-content;
+  animation: marqueeScroll 35s linear infinite;
+}
+.marquee-item {
+  display: flex; align-items: center; gap: .7rem;
+  padding: 0 2.5rem;
+  font-size: .75rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: rgba(255,255,255,.5);
+  white-space: nowrap;
+}
+.marquee-item i { color: var(--saffron); font-size: .8rem; }
+ 
+/* ═══════════════════════════════════════
+   DESTINATIONS SECTION
+═══════════════════════════════════════ */
+#destinations {
+  background: var(--cream);
+  padding: 6rem 5vw;
+}
+ 
+.dest-header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  gap: 2rem; flex-wrap: wrap; margin-bottom: 3.5rem;
+}
+ 
+.filter-bar {
+  display: flex; gap: .5rem; flex-wrap: wrap;
+}
+.f-btn {
+  background: transparent;
+  border: 1.5px solid rgba(12,26,46,.15);
+  color: var(--muted);
+  padding: .4rem 1.1rem; border-radius: 100px;
+  font-size: .78rem; font-weight: 600; letter-spacing: .04em;
+  cursor: pointer;
+  transition: all .25s;
+}
+.f-btn.active, .f-btn:hover {
+  background: var(--navy); border-color: var(--navy);
+  color: #fff;
+}
+ 
+/* CARDS GRID */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.8rem;
+}
+ 
+/* DESTINATION CARD */
+.dest-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition);
+  position: relative;
+  cursor: pointer;
+}
+.dest-card:hover {
+  transform: translateY(-12px);
+  box-shadow: var(--shadow-lg);
+}
+ 
+/* Image area */
+.card-img-box {
+  position: relative;
+  width: 100%; aspect-ratio: 16/11;
+  overflow: hidden;
+}
+.card-img-box img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: opacity .5s ease, transform .6s var(--transition);
+  will-change: opacity, transform;
+}
+.img-default   { opacity: 1;  z-index: 1; transform: scale(1); }
+.img-hover     { opacity: 0;  z-index: 2; transform: scale(1.07); }
+ 
+.dest-card:hover .img-default  { opacity: 0;  transform: scale(1.07); }
+.dest-card:hover .img-hover    { opacity: 1;  transform: scale(1); }
+ 
+/* Badges */
+.card-num {
+  position: absolute; top: 14px; left: 14px; z-index: 5;
+  background: var(--white);
+  color: var(--navy);
+  font-size: .68rem; font-weight: 800; letter-spacing: .1em;
+  padding: .25rem .7rem; border-radius: 100px;
+  box-shadow: var(--shadow-xs);
+}
+.card-badge {
+  position: absolute; top: 14px; right: 14px; z-index: 5;
+  background: linear-gradient(135deg, var(--saffron), var(--gold));
+  color: #fff;
+  font-size: .65rem; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .25rem .7rem; border-radius: 100px;
+}
+ 
+/* Rating overlay */
+.card-rating-bar {
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 5;
+  padding: .8rem 1rem .6rem;
+  background: linear-gradient(to top, rgba(12,26,46,.8) 0%, transparent 100%);
+  display: flex; align-items: center; justify-content: space-between;
+  opacity: 0; transform: translateY(8px);
+  transition: opacity .35s ease, transform .35s ease;
+}
+.dest-card:hover .card-rating-bar { opacity: 1; transform: translateY(0); }
+.stars { color: var(--gold); font-size: .85rem; letter-spacing: .05em; }
+.reviews { color: rgba(255,255,255,.7); font-size: .72rem; }
+ 
+/* Card body */
+.card-body { padding: 1.4rem 1.5rem 1.6rem; }
+ 
+.card-loc {
+  display: flex; align-items: center; gap: .35rem;
+  font-size: .75rem; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--saffron);
+  margin-bottom: .45rem;
+}
+.card-loc i { font-size: .7rem; }
+ 
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.45rem; font-weight: 800;
+  color: var(--navy); line-height: 1.2;
+  margin-bottom: .55rem;
+}
+ 
+.card-desc {
+  font-size: .85rem; font-weight: 400; line-height: 1.65;
+  color: var(--muted); margin-bottom: 0;
+}
+ 
+/* Read more expand */
+.card-extra {
+  font-size: .85rem; font-weight: 400; line-height: 1.65;
+  color: var(--muted);
+  max-height: 0; overflow: hidden;
+  transition: max-height .45s ease, padding .3s ease;
+}
+.card-extra.open { max-height: 200px; padding-top: .4rem; }
+ 
+.card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 1.1rem; padding-top: .9rem;
+  border-top: 1px solid rgba(12,26,46,.06);
+  flex-wrap: wrap; gap: .5rem;
+}
+ 
+.card-tags { display: flex; gap: .35rem; flex-wrap: wrap; }
+.tag-chip {
+  background: rgba(26,79,122,.07); color: var(--ocean);
+  font-size: .67rem; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; padding: .2rem .6rem; border-radius: 6px;
+}
+ 
+.btn-readmore {
+  background: transparent;
+  border: 1.5px solid var(--navy);
+  color: var(--navy);
+  padding: .45rem 1.15rem; border-radius: 100px;
+  font-size: .78rem; font-weight: 700; letter-spacing: .04em;
+  cursor: pointer;
+  transition: background .25s, color .25s, border-color .25s, transform .2s;
+  white-space: nowrap;
+}
+.btn-readmore:hover {
+  background: var(--saffron); border-color: var(--saffron);
+  color: #fff; transform: translateX(4px);
+}
+.btn-readmore.open-state { border-color: var(--coral); color: var(--coral); }
+.btn-readmore.open-state:hover { background: var(--coral); border-color: var(--coral); color: #fff; }
+ 
+/* ═══════════════════════════════════════
+   EXPERIENCES BANNER
+═══════════════════════════════════════ */
+.exp-banner {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 40%, var(--ocean) 100%);
+  padding: 5rem 5vw;
+  position: relative; overflow: hidden;
+}
+.exp-banner::before {
+  content: '';
+  position: absolute; top: -50%; right: -10%;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,165,0,.12) 0%, transparent 70%);
+}
+.exp-banner::after {
+  content: '';
+  position: absolute; bottom: -30%; left: -5%;
+  width: 400px; height: 400px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,117,26,.1) 0%, transparent 70%);
+}
+.exp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem; position: relative; z-index: 1;
+}
+.exp-card {
+  padding: 2rem 1.8rem;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: var(--radius);
+  transition: background var(--transition), transform var(--transition);
+  position: relative; overflow: hidden;
+}
+.exp-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--saffron), var(--gold));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .4s ease;
+}
+.exp-card:hover::before { transform: scaleX(1); }
+.exp-card:hover { background: rgba(255,255,255,.06); transform: translateY(-4px); }
+.exp-icon { font-size: 2.2rem; margin-bottom: 1rem; }
+.exp-card h4 { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: .4rem; }
+.exp-card p { font-size: .83rem; color: rgba(255,255,255,.5); line-height: 1.65; }
+.exp-num {
+  position: absolute; top: 1.2rem; right: 1.4rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem; font-weight: 900; color: rgba(255,255,255,.04);
+  line-height: 1;
+}
+ 
+/* ═══════════════════════════════════════
+   GALLERY SECTION
+═══════════════════════════════════════ */
+#gallery {
+  background: var(--warm-white);
+  padding: 6rem 5vw;
+}
+.gallery-header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2.5rem;
+}
+ 
+/* Masonry-style grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  gap: 1rem;
+}
+ 
+.g-item {
+  position: relative; overflow: hidden; border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.g-item img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .6s var(--transition), filter .4s ease;
+  display: block;
+}
+.g-item:hover img {
+  transform: scale(1.08);
+  filter: brightness(.75);
+}
+ 
+/* Overlay */
+.g-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(12,26,46,.85) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity .4s ease;
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.2rem 1.1rem;
+}
+.g-item:hover .g-overlay { opacity: 1; }
+.g-caption { color: #fff; font-size: .82rem; font-weight: 600; letter-spacing: .04em; }
+.g-sub { color: rgba(255,255,255,.6); font-size: .72rem; margin-top: .15rem; }
+.g-icon {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -60%);
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,.2);
+  backdrop-filter: blur(4px);
+  border: 1.5px solid rgba(255,255,255,.4);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 1rem;
+  opacity: 0; transform: translate(-50%, -50%) scale(.8);
+  transition: opacity .3s ease, transform .3s ease;
+}
+.g-item:hover .g-icon { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+ 
+/* Specific grid sizing — masonry feel */
+.g-item:nth-child(1)  { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; height: 340px; }
+.g-item:nth-child(2)  { height: 160px; }
+.g-item:nth-child(3)  { height: 160px; }
+.g-item:nth-child(4)  { height: 160px; }
+.g-item:nth-child(5)  { height: 160px; }
+.g-item:nth-child(6)  { grid-column: span 2; height: 200px; }
+.g-item:nth-child(7)  { height: 200px; }
+.g-item:nth-child(8)  { height: 200px; }
+.g-item:nth-child(9)  { height: 200px; }
+.g-item:nth-child(10) { grid-column: span 2; height: 200px; }
+.g-item:nth-child(11) { height: 200px; }
+.g-item:nth-child(12) { height: 200px; }
+ 
+/* Lightbox */
+.lightbox {
+  position: fixed; inset: 0; z-index: 5000;
+  background: rgba(0,0,0,.95);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .35s ease;
+  padding: 2rem;
+}
+.lightbox.open { opacity: 1; pointer-events: all; }
+.lb-img-wrap {
+  position: relative; max-width: 1100px; width: 100%;
+  max-height: 85vh;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.lb-img-wrap img {
+  width: 100%; max-height: 85vh; object-fit: contain;
+  border-radius: var(--radius);
+}
+.lb-close {
+  position: absolute; top: 1rem; right: 1rem;
+  width: 42px; height: 42px; border-radius: 50%;
+  background: rgba(255,255,255,.15); border: none;
+  color: #fff; font-size: 1.1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(8px);
+  transition: background .2s;
+}
+.lb-close:hover { background: var(--coral); }
+.lb-prev, .lb-next {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  width: 50px; height: 50px; border-radius: 50%;
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+  color: #fff; font-size: 1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(8px);
+  transition: background .2s;
+}
+.lb-prev { left: 1.5rem; }
+.lb-next { right: 1.5rem; }
+.lb-prev:hover, .lb-next:hover { background: var(--saffron); border-color: var(--saffron); }
+.lb-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(to top, rgba(0,0,0,.8), transparent);
+  color: #fff; font-size: .9rem; font-weight: 600;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+ 
+/* ═══════════════════════════════════════
+   TRAVEL TIPS SECTION
+═══════════════════════════════════════ */
+.tips-section {
+  background: var(--sand);
+  padding: 5.5rem 5vw;
+}
+.tips-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: center;
+}
+.tips-visual {
+  position: relative;
+}
+.tips-img-main {
+  width: 100%; border-radius: var(--radius);
+  aspect-ratio: 4/3; object-fit: cover;
+  box-shadow: var(--shadow-md);
+}
+.tips-img-accent {
+  position: absolute; bottom: -1.5rem; right: -1.5rem;
+  width: 45%; border-radius: var(--radius-sm);
+  border: 5px solid var(--warm-white);
+  box-shadow: var(--shadow-md);
+  aspect-ratio: 4/3; object-fit: cover;
+}
+.tips-badge-float {
+  position: absolute; top: -1rem; left: -1rem;
+  background: var(--navy);
+  border: 3px solid var(--warm-white);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.2rem;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.tips-badge-float strong {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; font-weight: 900; color: var(--gold);
+}
+.tips-badge-float span { font-size: .72rem; color: rgba(255,255,255,.6); letter-spacing: .08em; text-transform: uppercase; }
+ 
+.tips-list { margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+.tip-item {
+  display: flex; align-items: flex-start; gap: 1rem;
+  padding: 1rem 1.2rem; border-radius: var(--radius-sm);
+  background: var(--white); box-shadow: var(--shadow-xs);
+  transition: transform .3s, box-shadow .3s;
+}
+.tip-item:hover { transform: translateX(6px); box-shadow: var(--shadow-sm); }
+.tip-icon {
+  width: 40px; height: 40px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--saffron), var(--gold));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+}
+.tip-item h5 { font-size: .9rem; font-weight: 700; color: var(--navy); margin-bottom: .2rem; }
+.tip-item p { font-size: .82rem; color: var(--muted); line-height: 1.55; }
+ 
+/* ═══════════════════════════════════════
+   CONTACT SECTION
+═══════════════════════════════════════ */
+#contact {
+  background: var(--cream);
+  padding: 6rem 5vw;
+}
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1.2fr;
+  gap: 5rem; align-items: start;
+}
+ 
+/* Info side */
+.contact-info h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 800;
+  color: var(--navy); margin-bottom: .8rem;
+}
+.contact-info p { font-size: .93rem; color: var(--muted); line-height: 1.8; margin-bottom: 2rem; }
+ 
+.contact-details { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
+.contact-item {
+  display: flex; align-items: center; gap: 1rem;
+  padding: .9rem 1.2rem;
+  background: var(--white); border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-xs);
+  transition: transform .2s;
+}
+.contact-item:hover { transform: translateX(5px); }
+.ci-icon {
+  width: 40px; height: 40px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--navy), var(--ocean));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: .9rem;
+}
+.ci-label { font-size: .7rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--saffron); }
+.ci-text { font-size: .87rem; font-weight: 600; color: var(--navy); margin-top: .1rem; }
+ 
+/* Social icons */
+.social-row { display: flex; gap: .7rem; flex-wrap: wrap; }
+.social-btn {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; text-decoration: none;
+  border: 1.5px solid;
+  transition: transform .25s, background .25s, color .25s;
+}
+.social-btn.instagram { color: #e1306c; border-color: rgba(225,48,108,.3); background: rgba(225,48,108,.05); }
+.social-btn.instagram:hover { background: #e1306c; color: #fff; border-color: #e1306c; transform: translateY(-3px); }
+.social-btn.facebook  { color: #1877f2; border-color: rgba(24,119,242,.3); background: rgba(24,119,242,.05); }
+.social-btn.facebook:hover  { background: #1877f2; color: #fff; border-color: #1877f2; transform: translateY(-3px); }
+.social-btn.twitter   { color: #1da1f2; border-color: rgba(29,161,242,.3); background: rgba(29,161,242,.05); }
+.social-btn.twitter:hover   { background: #1da1f2; color: #fff; border-color: #1da1f2; transform: translateY(-3px); }
+.social-btn.youtube   { color: #ff0000; border-color: rgba(255,0,0,.3); background: rgba(255,0,0,.05); }
+.social-btn.youtube:hover   { background: #ff0000; color: #fff; border-color: #ff0000; transform: translateY(-3px); }
+.social-btn.whatsapp  { color: #25d366; border-color: rgba(37,211,102,.3); background: rgba(37,211,102,.05); }
+.social-btn.whatsapp:hover  { background: #25d366; color: #fff; border-color: #25d366; transform: translateY(-3px); }
+ 
+/* Map placeholder */
+.map-placeholder {
+  margin-top: 2rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+  height: 200px;
+  background: linear-gradient(135deg, var(--navy-mid) 0%, var(--ocean) 100%);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  color: rgba(255,255,255,.6); gap: .5rem;
+  border: 1px solid rgba(255,255,255,.06);
+}
+.map-placeholder i { font-size: 2rem; color: var(--saffron); }
+.map-placeholder span { font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; }
+ 
+/* Form side */
+.contact-form-wrap {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-md);
+}
+.contact-form-wrap h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; font-weight: 800;
+  color: var(--navy); margin-bottom: .4rem;
+}
+.contact-form-wrap > p { font-size: .85rem; color: var(--muted); margin-bottom: 2rem; }
+ 
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+.form-group { display: flex; flex-direction: column; gap: .4rem; }
+.form-group.full { grid-column: span 2; }
+.form-group label {
+  font-size: .75rem; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--navy);
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: var(--cream);
+  border: 1.5px solid rgba(12,26,46,.1);
+  border-radius: var(--radius-sm);
+  padding: .75rem 1rem;
+  font-family: 'Syne', sans-serif;
+  font-size: .88rem; color: var(--text-dark);
+  outline: none;
+  transition: border-color .25s, box-shadow .25s, background .25s;
+  resize: none;
+  width: 100%;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--saffron);
+  background: var(--white);
+  box-shadow: 0 0 0 4px rgba(232,117,26,.1);
+}
+.form-group textarea { height: 110px; }
+.form-group select option { background: var(--white); }
+ 
+.btn-submit {
+  width: 100%; margin-top: 1.2rem;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--ocean) 100%);
+  color: #fff; border: none;
+  padding: 1rem; border-radius: var(--radius-sm);
+  font-size: .93rem; font-weight: 700; letter-spacing: .05em;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: .6rem;
+  transition: transform .25s, box-shadow .25s, background .3s;
+  box-shadow: var(--shadow-sm);
+}
+.btn-submit:hover {
+  background: linear-gradient(135deg, var(--saffron) 0%, var(--gold) 100%);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+.btn-submit i { transition: transform .3s; }
+.btn-submit:hover i { transform: translateX(5px); }
+ 
+/* Form success */
+.form-success {
+  display: none;
+  text-align: center; padding: 2rem;
+}
+.form-success.show { display: flex; flex-direction: column; align-items: center; gap: .8rem; }
+.success-icon {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: linear-gradient(135deg, #28c76f, #20a553);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; color: #fff;
+  animation: popIn .5s ease both;
+}
+.form-success h5 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--navy); }
+.form-success p { font-size: .88rem; color: var(--muted); }
+ 
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer {
+  background: var(--navy);
+  padding: 5rem 5vw 0;
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.8fr repeat(3, 1fr);
+  gap: 3.5rem;
+  padding-bottom: 3.5rem;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.footer-brand .nav-logo { margin-bottom: 1rem; }
+.footer-brand p {
+  font-size: .86rem; color: rgba(255,255,255,.45); line-height: 1.8;
+  max-width: 280px; margin-bottom: 1.6rem;
+}
+.footer-newsletter-mini {
+  display: flex; gap: .5rem;
+}
+.footer-nl-input {
+  flex: 1; background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px; padding: .6rem .9rem;
+  font-family: 'Syne', sans-serif; font-size: .82rem;
+  color: #fff; outline: none;
+  transition: background .2s, border-color .2s;
+}
+.footer-nl-input::placeholder { color: rgba(255,255,255,.35); }
+.footer-nl-input:focus { background: rgba(255,255,255,.11); border-color: var(--saffron); }
+.footer-nl-btn {
+  background: var(--saffron); border: none;
+  color: #fff; padding: .6rem 1rem; border-radius: 8px;
+  cursor: pointer; font-size: .82rem; font-weight: 600;
+  transition: background .2s;
+}
+.footer-nl-btn:hover { background: var(--gold); }
+ 
+.footer-col h6 {
+  font-size: .75rem; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: rgba(255,255,255,.6);
+  margin-bottom: 1.3rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.footer-col ul { display: flex; flex-direction: column; gap: .6rem; }
+.footer-col ul li a {
+  font-size: .85rem; color: rgba(255,255,255,.4);
+  display: flex; align-items: center; gap: .5rem;
+  transition: color .2s, gap .2s;
+}
+.footer-col ul li a::before {
+  content: '→'; font-size: .65rem; opacity: 0;
+  transition: opacity .2s, transform .2s;
+  transform: translateX(-4px);
+}
+.footer-col ul li a:hover { color: var(--gold); }
+.footer-col ul li a:hover::before { opacity: 1; transform: translateX(0); }
+ 
+.footer-bottom {
+  padding: 1.5rem 0;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-bottom p { font-size: .8rem; color: rgba(255,255,255,.3); }
+.footer-bottom-links { display: flex; gap: 1.5rem; }
+.footer-bottom-links a {
+  font-size: .78rem; color: rgba(255,255,255,.3);
+  transition: color .2s;
+}
+.footer-bottom-links a:hover { color: var(--saffron); }
+ 
+/* Back to top */
+#btt {
+  position: fixed; bottom: 2rem; right: 2rem;
+  width: 46px; height: 46px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--saffron), var(--gold));
+  color: #fff; border: none;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem; cursor: pointer;
+  box-shadow: var(--shadow-glow);
+  opacity: 0; transform: translateY(20px);
+  transition: opacity .3s, transform .3s;
+  z-index: 500;
+}
+#btt.show { opacity: 1; transform: translateY(0); }
+#btt:hover { transform: translateY(-3px) scale(1.05); }
+ 
+/* ═══════════════════════════════════════
+   ANIMATIONS / KEYFRAMES
+═══════════════════════════════════════ */
+@keyframes heroFadeDown {
+  from { opacity:0; transform: translateY(-22px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+@keyframes scrollBounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(8px); }
+}
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes float-particle {
+  0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+@keyframes popIn {
+  0%   { transform: scale(0); }
+  70%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+ 
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 1100px) {
+  .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+  .g-item:nth-child(1)  { grid-column: span 2; }
+  .g-item:nth-child(6)  { grid-column: span 1; }
+  .g-item:nth-child(10) { grid-column: span 1; }
+}
+@media (max-width: 900px) {
+  .nav-menu { display: none; }
+  .hamburger { display: flex; }
+  .tips-grid { grid-template-columns: 1fr; }
+  .tips-visual { display: none; }
+  .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .form-group.full { grid-column: span 1; }
+}
+@media (max-width: 700px) {
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .g-item:nth-child(1) { grid-column: span 2; height: 220px; }
+  .g-item { height: 160px !important; grid-column: span 1 !important; }
+  .footer-top { grid-template-columns: 1fr; }
+  .dest-header { flex-direction: column; align-items: flex-start; }
+  .hero-stats { display: none; }
+  .hero-stat { padding: .8rem 1rem; }
+}
+@media (max-width: 480px) {
+  .cards-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 2.8rem; }
+  .hero-tagline { letter-spacing: .12em; font-size: .88rem; }
+  .hero-btns { flex-direction: column; align-items: center; }
+}
+ 
+/* Nav mobile menu */
+.mobile-menu {
+  display: none;
+  position: fixed; inset: 0; z-index: 999;
+  background: var(--navy);
+  flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2rem;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-size: 1.4rem; font-weight: 700; color: rgba(255,255,255,.8);
+  letter-spacing: .04em;
+  transition: color .2s;
+}
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-close {
+  position: absolute; top: 1.5rem; right: 1.5rem;
+  background: none; border: none;
+  color: rgba(255,255,255,.6); font-size: 1.5rem; cursor: pointer;
+}
+</style>
+</head>
+<body>
+ 
+<!-- ════════════ BACK TO TOP ════════════ -->
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+  <i class="fas fa-arrow-up"></i>
+</button>
+ 
+<!-- ════════════ MOBILE MENU ════════════ -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="closeMobileMenu()"><i class="fas fa-times"></i></button>
+  <a href="#home"         onclick="closeMobileMenu()">Home</a>
+  <a href="#destinations" onclick="closeMobileMenu()">Destinations</a>
+  <a href="#gallery"      onclick="closeMobileMenu()">Gallery</a>
+  <a href="#contact"      onclick="closeMobileMenu()">Contact</a>
+  <a href="#contact" onclick="closeMobileMenu()" style="background:var(--saffron);color:#fff;padding:.7rem 2rem;border-radius:100px;font-size:1rem">Book a Trip</a>
+</div>
+ 
+<!-- ════════════ NAVBAR ════════════ -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">
+    <span class="dot"></span>
+    Discover<span class="accent">&nbsp;India</span>
+  </a>
+  <ul class="nav-menu">
+    <li><a href="#home" class="active">Home</a></li>
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact" class="nav-cta">Book a Trip</a></li>
+  </ul>
+  <button class="hamburger" onclick="openMobileMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+ 
+<!-- ════════════ HERO ════════════ -->
+<section id="home">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-particles" id="particles"></div>
+ 
+  <div class="hero-content">
+    <div class="hero-badge">
+      <i class="fas fa-compass"></i>
+      Official India Travel Guide · 2025
+    </div>
+    <h1 class="hero-title">
+      Explore<br><span class="line2">Incredible India</span>
+    </h1>
+    <p class="hero-tagline">
+      Travel <span>✦</span> Explore <span>✦</span> Experience
+    </p>
+    <div class="hero-btns">
+      <a href="#destinations" class="btn-hero-primary">
+        Explore Now <i class="fas fa-arrow-right"></i>
+      </a>
+      <a href="#gallery" class="btn-hero-ghost">
+        <i class="fas fa-images"></i> View Gallery
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <strong>36+</strong><small>States &amp; UTs</small>
+      </div>
+      <div class="hero-stat">
+        <strong>42</strong><small>UNESCO Sites</small>
+      </div>
+      <div class="hero-stat">
+        <strong>5000+</strong><small>Yrs of History</small>
+      </div>
+      <div class="hero-stat">
+        <strong>10M+</strong><small>Tourists / Year</small>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="scroll-down">
+    <span>Scroll</span>
+    <div class="arrow"><i class="fas fa-chevron-down"></i></div>
+  </div>
+</section>
+ 
+<!-- ════════════ MARQUEE ════════════ -->
+<div class="marquee-strip">
+  <div class="marquee-inner" id="marqueeInner"></div>
+</div>
+ 
+<!-- ════════════ DESTINATIONS ════════════ -->
+<section id="destinations">
+  <div class="dest-header reveal">
+    <div>
+      <div class="tag-line">Popular Destinations</div>
+      <h2 class="section-heading">India's Most <em>Iconic</em> Places</h2>
+      <p class="section-subtext">Handpicked wonders that showcase the breathtaking diversity and timeless beauty of India.</p>
+    </div>
+    <div class="filter-bar">
+      <button class="f-btn active" onclick="applyFilter('all',this)">All</button>
+      <button class="f-btn" onclick="applyFilter('heritage',this)">Heritage</button>
+      <button class="f-btn" onclick="applyFilter('spiritual',this)">Spiritual</button>
+      <button class="f-btn" onclick="applyFilter('nature',this)">Nature</button>
+      <button class="f-btn" onclick="applyFilter('beach',this)">Beach</button>
+    </div>
+  </div>
+  <div class="cards-grid" id="cardsGrid"></div>
+</section>
+ 
+<!-- ════════════ EXPERIENCE BANNER ════════════ -->
+<div class="exp-banner">
+  <div class="exp-grid reveal">
+    <div class="exp-card">
+      <div class="exp-icon">🏛️</div>
+      <span class="exp-num">01</span>
+      <h4>World Heritage</h4>
+      <p>Walk through 42 UNESCO-listed monuments and living cultural landscapes spanning 5,000 years.</p>
+    </div>
+    <div class="exp-card">
+      <div class="exp-icon">🍛</div>
+      <span class="exp-num">02</span>
+      <h4>Culinary Adventures</h4>
+      <p>India's 28+ states each offer a distinct culinary identity — from Chettinad spices to Kashmiri wazwan.</p>
+    </div>
+    <div class="exp-card">
+      <div class="exp-icon">🌿</div>
+      <span class="exp-num">03</span>
+      <h4>Nature & Wildlife</h4>
+      <p>Explore the Sundarbans, Western Ghats, Rann of Kutch, and over 100 national parks.</p>
+    </div>
+    <div class="exp-card">
+      <div class="exp-icon">🎭</div>
+      <span class="exp-num">04</span>
+      <h4>Festivals & Culture</h4>
+      <p>Experience Holi, Diwali, Onam, and hundreds of vibrant festivals celebrated across every corner.</p>
+    </div>
+    <div class="exp-card">
+      <div class="exp-icon">🧘</div>
+      <span class="exp-num">05</span>
+      <h4>Wellness & Yoga</h4>
+      <p>Discover Ayurveda, yoga, and meditation in the land where holistic healing was born.</p>
+    </div>
+  </div>
+</div>
+ 
+<!-- ════════════ GALLERY ════════════ -->
+<section id="gallery">
+  <div class="gallery-header reveal">
+    <div>
+      <div class="tag-line">Photo Gallery</div>
+      <h2 class="section-heading">Frames of <em>Incredible</em> India</h2>
+      <p class="section-subtext">A visual journey through the landscapes, monuments, and culture that define India.</p>
+    </div>
+    <button class="btn-hero-ghost" style="color:var(--navy);border-color:rgba(12,26,46,.25);font-size:.82rem;padding:.65rem 1.4rem" onclick="alert('Full gallery coming soon!')">
+      View All Photos <i class="fas fa-arrow-right" style="margin-left:.4rem"></i>
+    </button>
+  </div>
+  <div class="gallery-grid" id="galleryGrid"></div>
+</section>
+ 
+<!-- ════════════ TRAVEL TIPS ════════════ -->
+<div class="tips-section">
+  <div class="tips-grid">
+    <div class="tips-visual reveal">
+      <img class="tips-img-main" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&q=80" alt="Travel India" loading="lazy"/>
+      <img class="tips-img-accent" src="https://images.unsplash.com/photo-1598091383021-15ddea10925d?w=400&q=80" alt="Kerala backwaters" loading="lazy"/>
+      <div class="tips-badge-float">
+        <strong>#1</strong>
+        <span>Top Rated<br>Destination</span>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="tag-line">Travel Smart</div>
+      <h2 class="section-heading">Plan Your<br><em>Perfect</em> Trip</h2>
+      <p class="section-subtext">Everything you need to know for an unforgettable journey through India.</p>
+      <div class="tips-list">
+        <div class="tip-item">
+          <div class="tip-icon">🗓️</div>
+          <div><h5>Best Time to Visit</h5><p>October to March is ideal. Summers suit hill stations; monsoons bring lush greenery to Kerala.</p></div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-icon">💉</div>
+          <div><h5>Health & Safety</h5><p>Consult your doctor for recommended vaccines. Carry a basic medical kit and travel insurance.</p></div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-icon">🚆</div>
+          <div><h5>Getting Around</h5><p>India Rail connects every major city. Book ahead on IRCTC for Rajdhani and Shatabdi express trains.</p></div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-icon">💰</div>
+          <div><h5>Budget Planning</h5><p>India suits all budgets — from ₹800/night guesthouses to luxurious palace hotels at ₹25,000+.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<!-- ════════════ CONTACT ════════════ -->
+<section id="contact">
+  <div style="text-align:center;margin-bottom:3.5rem" class="reveal">
+    <div class="tag-line" style="justify-content:center">Get In Touch</div>
+    <h2 class="section-heading">Plan Your <em>Dream</em> Journey</h2>
+    <p class="section-subtext" style="margin:0 auto;text-align:center">Have questions? Our travel experts are ready to craft your perfect India itinerary.</p>
+  </div>
+  <div class="contact-grid">
+    <!-- Left: Info -->
+    <div class="reveal">
+      <h3>Let's Plan Together</h3>
+      <p>Whether you're dreaming of the Taj Mahal at sunrise or a houseboat in Kerala's backwaters, we'll make it happen.</p>
+      <div class="contact-details">
+        <div class="contact-item">
+          <div class="ci-icon"><i class="fas fa-phone"></i></div>
+          <div><div class="ci-label">Phone</div><div class="ci-text">+91 98765 43210</div></div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon"><i class="fas fa-envelope"></i></div>
+          <div><div class="ci-label">Email</div><div class="ci-text">hello@discoverindia.com</div></div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div><div class="ci-label">Office</div><div class="ci-text">Connaught Place, New Delhi — 110001</div></div>
+        </div>
+      </div>
+      <p style="font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:.8rem">Follow Our Journey</p>
+      <div class="social-row">
+        <a href="#" class="social-btn instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-btn facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-btn twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-btn youtube"><i class="fab fa-youtube"></i></a>
+        <a href="#" class="social-btn whatsapp"><i class="fab fa-whatsapp"></i></a>
+      </div>
+      <div class="map-placeholder">
+        <i class="fas fa-map-marked-alt"></i>
+        <span>New Delhi, India</span>
+        <span style="font-size:.72rem;opacity:.5">28.6139° N, 77.2090° E</span>
+      </div>
+    </div>
+ 
+    <!-- Right: Form -->
+    <div class="reveal">
+      <div class="contact-form-wrap">
+        <h4>Send Us a Message</h4>
+        <p>Fill out the form and we'll get back within 24 hours.</p>
+ 
+        <div id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" placeholder="Arjun" id="fname"/>
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" placeholder="Sharma" id="lname"/>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" placeholder="arjun@email.com" id="femail"/>
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" placeholder="+91 99999 99999" id="fphone"/>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Destination</label>
+              <select id="fdest">
+                <option value="">Select a destination…</option>
+                <option>Taj Mahal, Agra</option>
+                <option>Golden Temple, Amritsar</option>
+                <option>Kerala Backwaters</option>
+                <option>Goa Beaches</option>
+                <option>Mysore Palace</option>
+                <option>Rajasthan Circuit</option>
+                <option>Himalayan Trek</option>
+                <option>Multiple Destinations</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Travel Month</label>
+              <select id="fmonth">
+                <option value="">Select month…</option>
+                <option>October 2025</option>
+                <option>November 2025</option>
+                <option>December 2025</option>
+                <option>January 2026</option>
+                <option>February 2026</option>
+                <option>March 2026</option>
+                <option>Flexible</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row" style="grid-template-columns:1fr">
+            <div class="form-group full">
+              <label>Your Message</label>
+              <textarea placeholder="Tell us about your dream India trip — number of travellers, interests, budget range…" id="fmsg"></textarea>
+            </div>
+          </div>
+          <button class="btn-submit" onclick="submitForm()">
+            Send Message <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+ 
+        <div class="form-success" id="formSuccess">
+          <div class="success-icon"><i class="fas fa-check"></i></div>
+          <h5>Message Sent!</h5>
+          <p>Thank you for reaching out. Our team will contact you within 24 hours to discuss your dream India trip.</p>
+          <button onclick="resetForm()" style="margin-top:.5rem;background:none;border:1.5px solid var(--saffron);color:var(--saffron);padding:.5rem 1.3rem;border-radius:100px;cursor:pointer;font-size:.82rem;font-weight:600">Send Another</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- ════════════ FOOTER ════════════ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#home" class="nav-logo">
+        <span class="dot"></span>
+        Discover<span class="accent">&nbsp;India</span>
+      </a>
+      <p>Your trusted guide to the wonders of India. Curated itineraries, hidden gems, and unforgettable experiences.</p>
+      <div class="footer-newsletter-mini">
+        <input class="footer-nl-input" type="email" placeholder="Your email…" id="nlEmail"/>
+        <button class="footer-nl-btn" onclick="subscribeNewsletter()">Subscribe</button>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h6>Destinations</h6>
+      <ul>
+        <li><a href="#">North India</a></li>
+        <li><a href="#">South India</a></li>
+        <li><a href="#">East India</a></li>
+        <li><a href="#">West India</a></li>
+        <li><a href="#">Island Getaways</a></li>
+        <li><a href="#">Hill Stations</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h6>Travel Types</h6>
+      <ul>
+        <li><a href="#">Heritage Tours</a></li>
+        <li><a href="#">Beach Holidays</a></li>
+        <li><a href="#">Wildlife Safaris</a></li>
+        <li><a href="#">Spiritual Journeys</a></li>
+        <li><a href="#">Honeymoon Packages</a></li>
+        <li><a href="#">Adventure Trips</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h6>Company</h6>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Our Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press Kit</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Discover India. Crafted with ❤️ for explorers worldwide.</p>
+    <div class="footer-bottom-links">
+      <a href="#">Terms of Service</a>
+      <a href="#">Privacy</a>
+      <a href="#">Cookies</a>
+      <a href="#">Sitemap</a>
+    </div>
+  </div>
+</footer>
+ 
+<!-- ════════════ LIGHTBOX ════════════ -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lb-prev" onclick="lbNav(-1)"><i class="fas fa-chevron-left"></i></button>
+  <div class="lb-img-wrap">
+    <img id="lbImg" src="" alt=""/>
+    <button class="lb-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
+    <div class="lb-caption" id="lbCaption"></div>
+  </div>
+  <button class="lb-next" onclick="lbNav(1)"><i class="fas fa-chevron-right"></i></button>
+</div>
+ 
+<!-- ════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════ -->
+<script>
+/* ── DATA ── */
+const destinations = [
+  {
+    id:1, name:"Taj Mahal", city:"Agra", state:"Uttar Pradesh", cat:"heritage",
+    tags:["UNESCO","Mughal","Wonder"],
+    rating:"4.9", reviews:"28k",
+    desc:"An ivory-white marble mausoleum — the eternal symbol of love built by Emperor Shah Jahan for his beloved queen Mumtaz Mahal.",
+    extra:"Completed in 1653, it took 22 years and 20,000 artisans to build. The complex includes a mosque, a guest house, and expansive gardens laid out in the traditional charbagh pattern.",
+    img1:"https://images.unsplash.com/photo-1548013146-72479768bada?w=600&q=80",
+    img2:"https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=600&q=80"
+  },
+  {
+    id:2, name:"Marina Beach", city:"Chennai", state:"Tamil Nadu", cat:"beach",
+    tags:["Beach","Iconic","Urban"],
+    rating:"4.5", reviews:"14k",
+    desc:"The world's second-longest urban beach stretching 13 km along the Bay of Bengal, alive with vendors, sculptures, and spectacular sunrises.",
+    extra:"Marina Beach is not just sand and surf — it is Chennai's living room. Mornings bring joggers and yoga enthusiasts; evenings fill with families enjoying sundal and murukku from street stalls.",
+    img1:"https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=600&q=80",
+    img2:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80"
+  },
+  {
+    id:3, name:"Mysore Palace", city:"Mysuru", state:"Karnataka", cat:"heritage",
+    tags:["Royal","Architecture","Festival"],
+    rating:"4.8", reviews:"19k",
+    desc:"A resplendent Indo-Saracenic palace that blazes with 100,000 lights during the famed Dasara festival — one of India's grandest royal spectacles.",
+    extra:"Built in 1912, Mysore Palace was designed by British architect Henry Irwin and is one of the largest palaces in India. The ornate Durbar Hall and the golden throne are its crown jewels.",
+    img1:"https://images.unsplash.com/photo-1609920658906-8223bd289001?w=600&q=80",
+    img2:"C:\\Users\\thani\\Downloads\\Mysuru-Palace-.jpeg"
+  },
+  {
+    id:4, name:"Gateway of India", city:"Mumbai", state:"Maharashtra", cat:"heritage",
+    tags:["Colonial","Landmark","Waterfront"],
+    rating:"4.6", reviews:"22k",
+    desc:"A magnificent triumphal arch overlooking the Arabian Sea, built to commemorate the visit of King George V — Mumbai's most iconic landmark.",
+    extra:"Completed in 1924 in the Indo-Saracenic style, the Gateway stands 26 metres tall. Nearby Elephanta Island with its ancient cave temples is a must-visit accessible by ferry.",
+    img1:"C:\\Users\\thani\\Downloads\\gateway-of-india.jpg",
+    img2:"https://images.unsplash.com/photo-1567157577867-05ccb1388e66?w=600&q=80"
+  },
+  {
+    id:5, name:"Golden Temple", city:"Amritsar", state:"Punjab", cat:"spiritual",
+    tags:["Sacred","Sikh","Serene"],
+    rating:"4.9", reviews:"31k",
+    desc:"Harmandir Sahib — the holiest shrine of Sikhism, clad in pure gold and floating serenely on the sacred Amrit Sarovar. Open to all faiths.",
+    extra:"The langar (community kitchen) here serves free meals to over 100,000 visitors daily, making it the world's largest community kitchen. The temple is breathtaking at night when its reflection shimmers in the water.",
+    img1:"C:\\Users\\thani\\Downloads\\golden_temple.webp",
+    img2:"https://images.unsplash.com/photo-1558431382-27e303142255?w=600&q=80"
+  },
+  {
+    id:6, name:"Qutub Minar", city:"New Delhi", state:"Delhi", cat:"heritage",
+    tags:["UNESCO","Medieval","Tower"],
+    rating:"4.5", reviews:"17k",
+    desc:"The world's tallest brick minaret at 73 metres, built in 1193 AD — a stunning red sandstone and marble tower from India's early Islamic era.",
+    extra:"The surrounding Qutub Complex includes the Quwwat-ul-Islam Mosque, the famous Iron Pillar of Delhi (over 1,600 years old and virtually rust-free), and several ornate tombs.",
+    img1:"https://images.unsplash.com/photo-1587474260584-136574528ed5?w=600&q=80",
+    img2:"https://images.unsplash.com/photo-1605640840605-14ac1855827b?w=600&q=80"
+  },
+  {
+    id:7, name:"Hawa Mahal", city:"Jaipur", state:"Rajasthan", cat:"heritage",
+    tags:["Rajput","Pink City","Iconic"],
+    rating:"4.7", reviews:"21k",
+    desc:"The 'Palace of Winds' — a five-storey honeycomb façade with 953 intricately latticed jharokha windows, designed so royal women could observe the street life below.",
+    extra:"Built in 1799 by Maharaja Sawai Pratap Singh, the palace's unusual design was inspired by the crown of Lord Krishna. The pink sandstone exterior glows a deep rose in the morning light.",
+    img1:"C:\\Users\\thani\\Downloads\\hawa mahal.jpg",
+    img2:"C:\\Users\\thani\\Downloads\\hawa mahal 1.jpg"
+  },
+  {
+    id:8, name:"Charminar", city:"Hyderabad", state:"Telangana", cat:"heritage",
+    tags:["Qutb Shahi","Landmark","Bazaar"],
+    rating:"4.5", reviews:"13k",
+    desc:"A magnificent 16th-century mosque and monument with four soaring minarets at the heart of the historic City of Pearls, surrounded by Hyderabad's famous bazaars.",
+    extra:"Built in 1591 by Muhammad Quli Qutb Shah to commemorate the end of a deadly plague, Charminar is surrounded by the Laad Bazaar (famous for bangles) and Mecca Masjid.",
+    img1:"C:\\Users\\thani\\Downloads\\Charminar,_Hyderabad.JPG",
+    img2:"C:\\Users\\thani\\Downloads\\Charminar.webp"
+  },
+  {
+    id:9, name:"Kerala Backwaters", city:"Alleppey", state:"Kerala", cat:"nature",
+    tags:["Backwaters","Houseboat","Tranquil"],
+    rating:"4.9", reviews:"25k",
+    desc:"A labyrinth of serene lagoons, lakes, rivers, and canals fringed by coconut palms — best experienced on a traditional kettuvallam houseboat.",
+    extra:"The backwaters extend 900 km across Kerala. Alleppey (Alappuzha), the 'Venice of the East', is the most popular base. The annual Nehru Trophy Boat Race draws thousands every August.",
+    img1:"https://images.unsplash.com/photo-1598091383021-15ddea10925d?w=600&q=80",
+    img2:"https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=600&q=80"
+  },
+  {
+    id:10, name:"Goa Beaches", city:"Panaji", state:"Goa", cat:"beach",
+    tags:["Beaches","Nightlife","Portuguese"],
+    rating:"4.8", reviews:"35k",
+    desc:"Sun-soaked shores, Portuguese colonial heritage, legendary nightlife, and spice-scented seafood — India's pocket paradise for every kind of traveller.",
+    extra:"Goa's 100+ beaches range from the buzzing Calangute and Baga in the north to the serene Palolem and Agonda in the south. The Goa Carnival in February is one of Asia's best street festivals.",
+    img1:"https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=600&q=80",
+    img2:"C:\\Users\\thani\\Downloads\\goa beach.jpg"
+  }
+];
+ 
+const galleryData = [
+  { url:"https://images.unsplash.com/photo-1548013146-72479768bada?w=900&q=85", caption:"Taj Mahal at Dawn", sub:"Agra, Uttar Pradesh" },
+  { url:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80", caption:"Himalayan Peaks", sub:"Himachal Pradesh" },
+  { url:"https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&q=80", caption:"Mountain Lake", sub:"Ladakh" },
+  { url:"https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=600&q=80", caption:"Goa Coastline", sub:"Goa" },
+  { url:"https://images.unsplash.com/photo-1598091383021-15ddea10925d?w=600&q=80", caption:"Kerala Backwaters", sub:"Alleppey, Kerala" },
+  { url:"C:\\Users\\thani\\Downloads\\Hawa Mahal Facade.jpg", caption:"Hawa Mahal Facade", sub:"Jaipur, Rajasthan" },
+  { url:"https://images.unsplash.com/photo-1558431382-27e303142255?w=600&q=80", caption:"Golden Temple Serenity", sub:"Amritsar, Punjab" },
+  { url:"https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&q=80", caption:"Misty Forest Valley", sub:"Coorg, Karnataka" },
+  { url:"https://images.unsplash.com/photo-1529253355930-ddbe423a2ac7?w=600&q=80", caption:"Gateway of India", sub:"Mumbai, Maharashtra" },
+  { url:"https://images.unsplash.com/photo-1501854140801-50d01698950b?w=900&q=85", caption:"Aerial River View", sub:"North India" },
+  { url:"https://images.unsplash.com/photo-1519046904884-53103b34b206?w=600&q=80", caption:"Sunset Beach", sub:"Andaman Islands" },
+  { url:"https://images.unsplash.com/photo-1587474260584-136574528ed5?w=600&q=80", caption:"Qutub Minar Grandeur", sub:"New Delhi" }
+];
+ 
+/* ── BUILD CARDS ── */
+function buildCards(filter = 'all') {
+  const grid = document.getElementById('cardsGrid');
+  const data = filter === 'all' ? destinations : destinations.filter(d => d.cat === filter);
+ 
+  grid.innerHTML = data.map(d => {
+    const stars = '★'.repeat(Math.floor(parseFloat(d.rating))) + (parseFloat(d.rating) % 1 >= .5 ? '½' : '');
+    return `
+    <article class="dest-card reveal" data-cat="${d.cat}">
+      <div class="card-img-box">
+        <img class="img-default" src="${d.img1}" alt="${d.name}" loading="lazy"/>
+        <img class="img-hover"   src="${d.img2}" alt="${d.name}" loading="lazy"/>
+        <div class="card-num">#${d.id}</div>
+        <div class="card-badge">${d.tags[0]}</div>
+        <div class="card-rating-bar">
+          <span class="stars">${stars} ${d.rating}</span>
+          <span class="reviews">${d.reviews} reviews</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-loc">
+          <i class="fas fa-map-marker-alt"></i>${d.city}, ${d.state}
+        </div>
+        <h3 class="card-title">${d.name}</h3>
+        <p class="card-desc">${d.desc}</p>
+        <div class="card-extra" id="extra-${d.id}">${d.extra}</div>
+        <div class="card-footer">
+          <div class="card-tags">${d.tags.map(t=>`<span class="tag-chip">${t}</span>`).join('')}</div>
+          <button class="btn-readmore" id="rbtn-${d.id}" onclick="toggleReadMore(${d.id})">
+            Read More →
+          </button>
+        </div>
+      </div>
+    </article>
+    `;
+  }).join('');
+ 
+  // Re-run reveal animation
+  setTimeout(() => revealAll(), 50);
+}
+ 
+function toggleReadMore(id) {
+  const extra = document.getElementById('extra-' + id);
+  const btn   = document.getElementById('rbtn-'  + id);
+  const isOpen = extra.classList.toggle('open');
+  btn.textContent = isOpen ? '← Show Less' : 'Read More →';
+  btn.classList.toggle('open-state', isOpen);
+}
+ 
+function applyFilter(cat, btn) {
+  document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  buildCards(cat);
+}
+ 
+/* ── BUILD GALLERY ── */
+function buildGallery() {
+  const grid = document.getElementById('galleryGrid');
+  grid.innerHTML = galleryData.map((g, i) => `
+    <div class="g-item reveal" onclick="openLightbox(${i})">
+      <img src="${g.url}" alt="${g.caption}" loading="lazy"/>
+      <div class="g-overlay">
+        <div class="g-icon"><i class="fas fa-expand-alt"></i></div>
+        <div class="g-caption">${g.caption}</div>
+        <div class="g-sub">${g.sub}</div>
+      </div>
+    </div>
+  `).join('');
+}
+ 
+/* ── LIGHTBOX ── */
+let lbIndex = 0;
+function openLightbox(i) {
+  lbIndex = i;
+  document.getElementById('lbImg').src    = galleryData[i].url.replace('w=600','w=1200');
+  document.getElementById('lbCaption').textContent = galleryData[i].caption + ' — ' + galleryData[i].sub;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(e) {
+  if (!e || e.target === document.getElementById('lightbox') || e.currentTarget.classList.contains('lb-close')) {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+function lbNav(dir) {
+  lbIndex = (lbIndex + dir + galleryData.length) % galleryData.length;
+  openLightbox(lbIndex);
+}
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowRight') lbNav(1);
+  if (e.key === 'ArrowLeft')  lbNav(-1);
+});
+ 
+/* ── MARQUEE ── */
+function buildMarquee() {
+  const items = [
+    "Taj Mahal · Agra", "Marina Beach · Chennai", "Mysore Palace · Mysuru",
+    "Gateway of India · Mumbai", "Golden Temple · Amritsar", "Qutub Minar · Delhi",
+    "Hawa Mahal · Jaipur", "Charminar · Hyderabad", "Kerala Backwaters", "Goa Beaches"
+  ];
+  const inner = document.getElementById('marqueeInner');
+  const doubled = [...items, ...items];
+  inner.innerHTML = doubled.map(t =>
+    `<div class="marquee-item"><i class="fas fa-star"></i>${t}</div>`
+  ).join('');
+}
+ 
+/* ── PARTICLES ── */
+function buildParticles() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 16; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = 4 + Math.random() * 8;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      animation-duration:${10 + Math.random()*20}s;
+      animation-delay:${Math.random()*15}s;
+      opacity:${.2 + Math.random()*.4};
+    `;
+    container.appendChild(p);
+  }
+}
+ 
+/* ── NAVBAR SCROLL ── */
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+  document.getElementById('btt').classList.toggle('show', window.scrollY > 400);
+ 
+  // Active nav link
+  const sections = ['home','destinations','gallery','contact'];
+  const links = document.querySelectorAll('.nav-menu a:not(.nav-cta)');
+  let current = 'home';
+  sections.forEach(s => {
+    const sec = document.getElementById(s);
+    if (sec && window.scrollY >= sec.offsetTop - 120) current = s;
+  });
+  links.forEach(l => {
+    l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+  });
+});
+ 
+/* ── REVEAL ON SCROLL ── */
+function revealAll() {
+  const els = document.querySelectorAll('.reveal:not(.visible)');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(el => obs.observe(el));
+}
+ 
+/* ── HERO PARALLAX ── */
+window.addEventListener('scroll', () => {
+  const bg = document.getElementById('heroBg');
+  if (bg && window.scrollY < window.innerHeight) {
+    bg.style.transform = `scale(1) translateY(${window.scrollY * .25}px)`;
+  }
+});
+ 
+/* ── MOBILE MENU ── */
+function openMobileMenu()  { document.getElementById('mobileMenu').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeMobileMenu() { document.getElementById('mobileMenu').classList.remove('open'); document.body.style.overflow=''; }
+ 
+/* ── CONTACT FORM ── */
+function submitForm() {
+  const fname = document.getElementById('fname').value.trim();
+  const femail = document.getElementById('femail').value.trim();
+  const fmsg = document.getElementById('fmsg').value.trim();
+  if (!fname || !femail || !fmsg) {
+    // Shake effect on empty fields
+    [fname?null:'fname', femail?null:'femail', fmsg?null:'fmsg'].forEach(id => {
+      if (!id) return;
+      const el = document.getElementById(id);
+      el.style.borderColor = 'var(--coral)';
+      el.style.animation = 'shake .4s ease';
+      setTimeout(() => { el.style.animation = ''; el.style.borderColor = ''; }, 500);
+    });
+    return;
+  }
+  document.getElementById('contactForm').style.display = 'none';
+  document.getElementById('formSuccess').classList.add('show');
+}
+function resetForm() {
+  document.getElementById('contactForm').style.display = 'block';
+  document.getElementById('formSuccess').classList.remove('show');
+  ['fname','lname','femail','fphone','fdest','fmonth','fmsg'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+}
+function subscribeNewsletter() {
+  const el = document.getElementById('nlEmail');
+  if (!el.value.includes('@')) {
+    el.style.borderColor = 'var(--coral)'; 
+    setTimeout(()=>el.style.borderColor='',1000); 
+    return;
+  }
+  el.value = '';
+  el.placeholder = '✓ Subscribed! Thank you';
+  setTimeout(()=>el.placeholder='Your email…', 3000);
+}
+ 
+/* ── SHAKE KEYFRAME (injected) ── */
+const shakeStyle = document.createElement('style');
+shakeStyle.textContent = `
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20%,60%  { transform: translateX(-6px); }
+    40%,80%  { transform: translateX(6px); }
+  }
+`;
+document.head.appendChild(shakeStyle);
+ 
+/* ── HERO BG LOADED ── */
+window.addEventListener('load', () => {
+  document.getElementById('heroBg').classList.add('loaded');
+});
+ 
+/* ── INIT ── */
+buildParticles();
+buildMarquee();
+buildCards();
+buildGallery();
+setTimeout(revealAll, 200);
+</script>
+</body>
+</html>
